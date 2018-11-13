@@ -1,0 +1,37 @@
+%section.hero
+  .hero-body
+    .container
+      .columns
+        #search-el.hero-body{:style => ""}
+          .container.has-text-centered{:id => ""}
+            %h1.title
+              Busca lugar
+          %section#search-items-results
+            .container
+              = form_tag({:controller => "welcome", :action => "index"}, :method => :get) do
+                .field.has-addons{:style => "padding: 10px 0px 0px 0px;"}
+                  %p#main-search-control.control.is-expanded
+                    = text_field_tag "searchbox", params[:searchbox], class: 'input', id: 'main-search-input'
+                  %p.control
+                    = submit_tag "Buscar", :name => nil, class: 'button is-info', id: 'main-search-button'
+                %p#status-text.help.is-danger
+                .tile.is-ancestor{:style => ""}
+                  #left-tile-column.tile.is-6.is-vertical.is-parent
+                  #right-tile-column.tile.is-6.is-vertical.is-parent
+
+    .container.has-text-centered
+      .columns.is-multiline
+        - if @articles.count == 0
+          %h1.subtitle Aun no hay datos
+        - else
+          - @articles.each do |article|
+            .column.is-4
+              .card.is-shady.is-storyworld
+                %figure.image.is-5by4
+                  =image_tag("#{article.url}", alt: "#{article.title}")
+                .card-body
+                  .card-title= article.title
+                  .card-description
+                    %p= article.content
+                .card-footer
+                  %p= article.company
